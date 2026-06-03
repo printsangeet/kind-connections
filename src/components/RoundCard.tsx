@@ -37,6 +37,12 @@ export default function RoundCard({
   // lever state: which side is pulled? resets when user goes Back or after confirm.
   const [leverPulled, setLeverPulled] = React.useState<string | null>(null);
   const [confirmPulled, setConfirmPulled] = React.useState(false);
+  // perfect block state
+  const [pbGuess, setPbGuess] = React.useState("");
+  const [pbPlacing, setPbPlacing] = React.useState(false);
+  const [pbPlaced, setPbPlaced] = React.useState(false);
+  const [pbError, setPbError] = React.useState<string | null>(null);
+  const [pbCelebrate, setPbCelebrate] = React.useState(false);
   const settledRef = React.useRef<number | null>(null);
 
   const msToLock = Math.max(0, round.lockAt - now);
