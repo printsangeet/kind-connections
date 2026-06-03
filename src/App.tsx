@@ -1,7 +1,6 @@
 import React from "react";
 import { Shield, History, ArrowLeft, Wallet2 } from "lucide-react";
 import { api, type RoundView } from "./lib/api";
-import { signals as deriveSignals } from "./lib/modes";
 import { useAccount, useBalance } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 
