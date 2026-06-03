@@ -199,14 +199,7 @@ export default function App() {
             </div>
 
             <aside className="side">
-              {addr && (
-                <YourBets
-                  address={addr}
-                  liveBets={liveBets}
-                  rounds={rounds.map((r) => ({ id: r.id, lockAt: r.lockAt, settleAt: r.settleAt }))}
-                />
-              )}
-              <div className="side-head" style={{ marginTop: addr ? 18 : 0 }}>
+              <div className="side-head">
                 <History size={15} /> Ended Rounds
               </div>
               {history.length === 0 && <div className="empty sm">No settled rounds yet.</div>}
