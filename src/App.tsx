@@ -5,6 +5,7 @@ import { useAccount, useBalance } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 import RoundCard from "./components/RoundCard";
+import RoundsCarousel from "./components/RoundsCarousel";
 import ProvablyFair from "./components/ProvablyFair";
 import Home from "./components/Home";
 import { type LiveBet } from "./components/YourBets";
