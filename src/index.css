@@ -525,3 +525,78 @@ input,button{font-family:inherit}
 
 /* connect-wallet hint under bet buttons */
 .pm-connect-hint{margin-top:10px;text-align:center;font-size:11.5px;color:var(--muted);font-family:var(--display);text-transform:uppercase;letter-spacing:.08em}
+
+/* ========================================================== */
+/* ===== NEO-BRUTALIST WHITE THEME — BETTING ZONE ONLY ====== */
+/* ========================================================== */
+.zone-mode{background:#f5f5f5;
+  background-image:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);
+  background-size:22px 22px}
+.zone-mode .wrap{color:#0a0a0a}
+.zone-mode .page-title{color:#0a0a0a;font-weight:900;letter-spacing:-.03em}
+.zone-mode .page-sub{color:#374151}
+.zone-mode .back-link{color:#374151;font-weight:700}
+.zone-mode .back-link:hover{color:#000}
+.zone-mode .empty,.zone-mode .empty.sm{color:#6b7280}
+
+/* round cards */
+.zone-mode .pm-card{background:#fff;border:4px solid #000;border-radius:14px;
+  box-shadow:8px 8px 0 0 rgba(0,0,0,.9);color:#0a0a0a}
+.zone-mode .pm-card.closing{border-color:#000;box-shadow:8px 8px 0 0 #f97316}
+.zone-mode .pm-card.locked{border-color:#000;box-shadow:8px 8px 0 0 #ef4444}
+.zone-mode .pm-badge.mode{background:#fff;color:#0a0a0a;border:2px solid #000;border-radius:8px;box-shadow:2px 2px 0 0 #000;font-weight:800}
+.zone-mode .pm-badge.hot{border:2px solid #000;box-shadow:2px 2px 0 0 #000;border-radius:8px}
+.zone-mode .pm-clock{border:2px solid #000;box-shadow:2px 2px 0 0 #000;border-radius:8px;font-weight:800}
+.zone-mode .pm-clock.lock,.zone-mode .pm-clock.done{background:#fff;color:#000}
+.zone-mode .pm-q h3{color:#0a0a0a;font-weight:700}
+.zone-mode .pm-icon{border:2px solid #000;box-shadow:2px 2px 0 0 #000;border-radius:10px}
+.zone-mode .pm-prog-thin{background:rgba(0,0,0,.12);border:1px solid #000;height:6px;border-radius:6px}
+.zone-mode .pm-banks{border-top:2px dashed rgba(0,0,0,.25);border-bottom:2px dashed rgba(0,0,0,.25)}
+.zone-mode .pm-banks div p{color:#6b7280}
+.zone-mode .pm-banks div b{color:#0a0a0a}
+.zone-mode .pm-banks .gold{color:#b8860b}
+.zone-mode .pm-banks .em{color:#16a34a}
+.zone-mode .pm-banks .ro{color:#dc2626}
+.zone-mode .pm-mode{background:#fff;color:#0a0a0a;border:2px solid #000;border-radius:9px;box-shadow:2px 2px 0 0 #000;font-weight:700;transition:transform .12s var(--ease),box-shadow .12s var(--ease)}
+.zone-mode .pm-mode:hover{color:#0a0a0a;transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000}
+.zone-mode .pm-mode.on{background:#3b82f6;color:#fff;border-color:#000;box-shadow:2px 2px 0 0 #000}
+.zone-mode .pm-voted p{color:#6b7280}
+.zone-mode .pm-voted .em{color:#16a34a}
+.zone-mode .pm-voted .ro{color:#dc2626}
+.zone-mode .pm-bar{border:2px solid #000;height:14px}
+.zone-mode .pm-players{color:#6b7280;font-weight:600}
+.zone-mode .pm-yes,.zone-mode .pm-no{border:3px solid #000 !important;border-radius:12px;box-shadow:4px 4px 0 0 #000;transition:transform .12s var(--ease),box-shadow .12s var(--ease)}
+.zone-mode .pm-yes:hover,.zone-mode .pm-no:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 0 #000;filter:none}
+.zone-mode .pm-yes:active,.zone-mode .pm-no:active{transform:translate(4px,4px);box-shadow:0 0 0 0 #000}
+.zone-mode .pick{background:#fff;border:2px solid #000;border-radius:10px;box-shadow:2px 2px 0 0 #000;color:#0a0a0a;transition:transform .12s var(--ease),box-shadow .12s var(--ease)}
+.zone-mode .pick:hover{transform:translate(1px,1px);box-shadow:1px 1px 0 0 #000;color:#0a0a0a}
+.zone-mode .pick.sel{background:#3b82f6;color:#fff;border-color:#000;box-shadow:2px 2px 0 0 #000}
+.zone-mode .num-input{background:#fff;border:2px solid #000;color:#0a0a0a;box-shadow:2px 2px 0 0 #000;border-radius:10px}
+.zone-mode .num-input:focus{border-color:#000}
+.zone-mode .mybets{border-top:2px dashed rgba(0,0,0,.25)}
+.zone-mode .mybets .h{color:#6b7280}
+.zone-mode .mybet{color:#374151}
+.zone-mode .mybet .pk{color:#0a0a0a;font-weight:700}
+.zone-mode .pm-connect-hint{color:#6b7280}
+
+/* slide-up confirm */
+.zone-mode .pm-betview{background:#fff;border-top:3px solid #000}
+.zone-mode .pm-back{color:#374151;font-weight:700}
+.zone-mode .pm-back:hover{color:#000}
+.zone-mode .pm-bv-lbl{color:#6b7280}
+.zone-mode .pm-bv-pill{border:2px solid #000;box-shadow:3px 3px 0 0 #000}
+.zone-mode .pm-bv-stake,.zone-mode .pm-bv-win{background:#f5f5f5;border:2px solid #000;color:#374151;box-shadow:2px 2px 0 0 #000;border-radius:10px}
+.zone-mode .pm-bv-stake b,.zone-mode .pm-bv-win b{color:#0a0a0a}
+.zone-mode .pm-bv-win b.em{color:#16a34a}
+.zone-mode .pm-confirm{border:3px solid #000;box-shadow:4px 4px 0 0 #000;border-radius:12px}
+
+/* recent blocks sidebar */
+.zone-mode .side{background:#fff;border:4px solid #000;border-radius:14px;
+  box-shadow:8px 8px 0 0 rgba(0,0,0,.9);color:#0a0a0a}
+.zone-mode .side-head{color:#0a0a0a;font-weight:900;letter-spacing:-.01em;padding-bottom:10px;border-bottom:2px dashed rgba(0,0,0,.25)}
+.zone-mode .hist-row{background:#fff;border:2px solid #000;border-radius:10px;box-shadow:3px 3px 0 0 #000;color:#0a0a0a;margin-bottom:10px;padding:11px 13px}
+.zone-mode .hist-row .bn{color:#0a0a0a;font-weight:800}
+.zone-mode .hist-row .hh{color:#6b7280}
+.zone-mode .block-row{background:#fff;border:2px solid #000;border-radius:10px;box-shadow:3px 3px 0 0 #000;color:#0a0a0a}
+.zone-mode .block-row .bn{color:#0a0a0a;font-weight:800}
+.zone-mode .block-row .hh{color:#6b7280}
