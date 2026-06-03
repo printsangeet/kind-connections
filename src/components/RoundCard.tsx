@@ -179,6 +179,131 @@ export default function RoundCard({
             </div>
           )}
 
+          {/* PERFECT BLOCK — special section, available on both cards */}
+          {(() => {
+            // HOT card = slot "open" (further from settling). CLOSING card always disabled.
+            const isHotCard = slot === "open";
+            const pbOpen = isHotCard && !!round.perfectBlockOpen && isOpen;
+            const pbMs = round.msToPerfectClose ?? 0;
+            const estBlock = head != null ? head + Math.round(msToSettle / 200) : null;
+            return (
+              <div style={{
+                margin: "12px 0 6px", padding: "12px 14px", borderRadius: 12,
+                background: pbOpen
+                  ? "linear-gradient(135deg, rgba(253,224,71,.18), rgba(251,191,36,.10))"
+                  : "rgba(255,255,255,.03)",
+                border: `2px solid ${pbOpen ? "rgba(253,224,71,.7)" : "rgba(255,255,255,.08)"}`,
+                boxShadow: pbOpen ? "0 0 24px rgba(253,224,71,.25)" : "none",
+                opacity: pbOpen ? 1 : 0.78,
+                position: "relative", overflow: "hidden",
+              }}>
+                {pbCelebrate && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: .6 }} animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 220, damping: 14 }}
+                    style={{
+                      position: "absolute", inset: 0, display: "grid", placeItems: "center",
+                      background: "rgba(253,224,71,.92)", color: "#0a0a0a", zIndex: 2,
+                      fontWeight: 900, fontFamily: "'Space Grotesk',system-ui,sans-serif",
+                      textAlign: "center", padding: 12,
+                    }}>
+                    <div>
+                      <div style={{ fontSize: 11, letterSpacing: ".22em" }}>PERFECT BLOCK</div>
+                      <div style={{ fontSize: 28, letterSpacing: "-.02em" }}>50× WIN! 🎉</div>
+                    </div>
+                  </motion.div>
+                )}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                  <span style={{
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    background: "linear-gradient(135deg,#fde047,#f59e0b)", color: "#1a1300",
+                    padding: "4px 10px", borderRadius: 999, fontSize: 10, fontWeight: 900,
+                    letterSpacing: ".14em", border: "1px solid rgba(0,0,0,.25)",
+                  }}>
+                    <Sparkles size={11} /> PERFECT BLOCK
+                  </span>
+                  {pbOpen ? (
+                    <span className="mono" style={{
+                      fontSize: 11, fontWeight: 800, color: "#fde047",
+                      display: "inline-flex", alignItems: "center", gap: 4,
+                    }}>
+                      <Clock size={11} /> {fmtClock(pbMs)} left
+                    </span>
+                  ) : (
+                    <span style={{
+                      fontSize: 10, fontWeight: 800, color: "#9ca3af",
+                      letterSpacing: ".12em", textTransform: "uppercase",
+                    }}>⏱ Window Closed</span>
+                  )}
+                </div>
+                <div style={{ fontSize: 12, color: "var(--text-2)", margin: "8px 0 6px" }}>
+                  Guess the exact block number → <b style={{ color: "#fde047" }}>50× reward</b>
+                </div>
+                {estBlock != null && (
+                  <div style={{ fontSize: 10, color: "var(--muted)", marginBottom: 8,
+                    letterSpacing: ".08em", textTransform: "uppercase" }}>
+                    Hint · Est. target ≈ <span className="mono" style={{ color: "#fff" }}>#{estBlock.toLocaleString()}</span>
+                  </div>
+                )}
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input
+                    className="num-input"
+                    type="number"
+                    placeholder="Exact block #"
+                    value={pbGuess}
+                    disabled={!pbOpen || pbPlacing || pbPlaced}
+                    onChange={(e) => { setPbGuess(e.target.value); setPbError(null); }}
+                    style={{ flex: 1, opacity: pbOpen ? 1 : 0.55 }}
+                  />
+                  <button
+                    className="pm-yes glow"
+                    disabled={!pbOpen || !addr || pbPlacing || pbPlaced || pbGuess === "" || Number(pbGuess) <= 0}
+                    style={{
+                      whiteSpace: "nowrap", padding: "10px 14px",
+                      background: pbOpen ? "linear-gradient(135deg,#fde047,#f59e0b)" : undefined,
+                      color: pbOpen ? "#1a1300" : undefined,
+                    }}
+                    onClick={async () => {
+                      if (!addr) { onNeedConnect(); return; }
+                      if (!pbOpen) return;
+                      setPbPlacing(true); setPbError(null);
+                      try {
+                        await W.sendStake();
+                        const res = await api.bet({
+                          wallet: addr, roundId: round.id,
+                          mode: "perfectblock", pick: String(Number(pbGuess)), stake: BET,
+                        });
+                        if (res.ok) {
+                          setPbPlaced(true);
+                          onBet({ mode: "perfectblock", pick: String(Number(pbGuess)), txHash: "perfectblock" });
+                        } else {
+                          setPbError(res.error || "failed");
+                        }
+                      } catch (e: any) {
+                        setPbError(e?.message || "failed");
+                      } finally { setPbPlacing(false); }
+                    }}
+                  >
+                    {!pbOpen
+                      ? "⏱ Window Closed"
+                      : !addr
+                        ? "Connect wallet"
+                        : pbPlaced
+                          ? "✓ Bet Placed"
+                          : pbPlacing
+                            ? "Confirming…"
+                            : "Place Bet ◆ 0.01"}
+                  </button>
+                </div>
+                {pbError && (
+                  <div style={{ fontSize: 11, color: "#fca5a5", marginTop: 6 }}>
+                    {pbError === "perfect_block_window_closed" ? "Window just closed." : pbError}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+
           {/* banks */}
           <div className="pm-banks">
             <div><p>Total Pot</p><b className="gold">◆ {totalPot.toFixed(2)}</b></div>
