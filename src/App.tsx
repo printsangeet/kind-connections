@@ -182,20 +182,18 @@ export default function App() {
           </div>
 
           <div className="zone-grid">
-            <div className="rounds">
+            <div className="rounds-carousel-wrap">
               {rounds.length === 0 && <div className="empty">Connecting to the round engine…</div>}
-              {rounds.map((r, i) => (
-                <RoundCard
-                  key={r.id}
-                  round={r}
-                  slot={i === 0 ? "closing" : "open"}
+              {rounds.length > 0 && (
+                <RoundsCarousel
+                  rounds={rounds}
                   addr={addr}
                   head={head}
                   onNeedConnect={() => openConnectModal?.()}
                   onOpenPF={(b) => setPfBlock(b)}
-                  onBet={(info) => handleBet(r.id, info)}
+                  onBet={handleBet}
                 />
-              ))}
+              )}
             </div>
 
             <aside className="side">
