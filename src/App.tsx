@@ -1,5 +1,5 @@
 import React from "react";
-import { Shield, History, ArrowLeft } from "lucide-react";
+import { Shield, History, ArrowLeft, Wallet2 } from "lucide-react";
 import { api, type RoundView } from "./lib/api";
 import { useAccount, useBalance } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -7,7 +7,8 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import RoundCard from "./components/RoundCard";
 import ProvablyFair from "./components/ProvablyFair";
 import Home from "./components/Home";
-import YourBets, { type LiveBet } from "./components/YourBets";
+import { type LiveBet } from "./components/YourBets";
+import YourBetsModal from "./components/YourBetsModal";
 import WalletButton from "./components/WalletButton";
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   const [head, setHead] = React.useState<number | null>(null);
   const [pfBlock, setPfBlock] = React.useState<number | null>(null);
   const [liveBets, setLiveBets] = React.useState<LiveBet[]>([]);
+  const [showYourBets, setShowYourBets] = React.useState(false);
 
   const { address, isConnected } = useAccount();
   const { data: balance, refetch: refetchBal } = useBalance({ address });
@@ -128,6 +130,7 @@ export default function App() {
                   round={r}
                   slot={i === 0 ? "closing" : "open"}
                   addr={addr}
+                  head={head}
                   onNeedConnect={() => openConnectModal?.()}
                   onOpenPF={(b) => setPfBlock(b)}
                   onBet={(info) => handleBet(r.id, info)}
