@@ -78,6 +78,8 @@ export function roundView(r) {
   const pools = Object.values(poolMap).map((p) => ({
     mode: p.mode, pick: p.pick, stake: +p.stake.toFixed(6), players: p.players.size,
   }));
+  const perfectBlockClosesAt = r.openAt + PERFECT_BLOCK_WINDOW_MS;
+  const perfectBlockOpen = r.status === "open" && Date.now() < perfectBlockClosesAt;
   return {
     id: r.id,
     status: r.status,
@@ -86,6 +88,9 @@ export function roundView(r) {
     settleAt: r.settleAt,
     msToLock: Math.max(0, r.lockAt - Date.now()),
     msToSettle: Math.max(0, r.settleAt - Date.now()),
+    perfectBlockOpen,
+    perfectBlockClosesAt,
+    msToPerfectClose: Math.max(0, perfectBlockClosesAt - Date.now()),
     targetBlock: r.targetBlock,
     result: r.result,
     totalBets: r.bets.length,
@@ -102,8 +107,24 @@ export function liveRounds() {
     .map(roundView);
 }
 
-export function recentHistory(n = 20) {
-  return history.slice(0, n);
+export function recentHistory(page = 1, limit = 20) {
+  const p = Math.max(1, Number(page) || 1);
+  const l = Math.max(1, Math.min(100, Number(limit) || 20));
+  const total = history.length;
+  const pages = Math.max(1, Math.ceil(total / l));
+  const start = (p - 1) * l;
+  return { history: history.slice(start, start + l), page: p, pages, total, limit: l };
+}
+
+export function betsForWallet(wallet, page = 1, limit = 20) {
+  const w = String(wallet || "").toLowerCase();
+  const all = endedBets.filter((b) => b.wallet === w).sort((a, b) => b.settledAt - a.settledAt);
+  const p = Math.max(1, Number(page) || 1);
+  const l = Math.max(1, Math.min(200, Number(limit) || 20));
+  const total = all.length;
+  const pages = Math.max(1, Math.ceil(total / l));
+  const start = (p - 1) * l;
+  return { bets: all.slice(start, start + l), page: p, pages, total, limit: l };
 }
 
 export function placeBet({ wallet, roundId, mode, pick, stake }) {
