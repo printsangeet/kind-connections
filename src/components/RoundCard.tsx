@@ -183,6 +183,7 @@ export default function RoundCard({
                   <span>{sideB.toUpperCase()}</span>
                 </button>
               </div>
+              {!addr && <div className="pm-connect-hint">Connect wallet to place bets</div>}
             </>
           )}
 
@@ -195,8 +196,8 @@ export default function RoundCard({
               {(mode.kind === "number" || mode.kind === "pvp") && (
                 <input className="num-input" type="number" placeholder={`Enter ${mode.hint}`} value={num} onChange={(e) => setNum(e.target.value)} />
               )}
-              <button className="pm-yes full glow" disabled={!isOpen || (mode.kind !== "digit" && num === "")} onClick={() => openBet(pick)}>
-                {!isOpen ? "Locked" : "Place Bet ◆ 0.01"}
+              <button className="pm-yes full glow" disabled={!isOpen || (!!addr && mode.kind !== "digit" && num === "")} onClick={() => openBet(pick)}>
+                {!isOpen ? "Locked" : !addr ? "Connect wallet to place bets" : "Place Bet ◆ 0.01"}
               </button>
             </div>
           )}
