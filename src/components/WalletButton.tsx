@@ -31,7 +31,7 @@ export default function WalletButton() {
 
         return (
           <>
-            <div className="bal"><span className="coin">◆</span> {balNum.toLocaleString(undefined, { maximumFractionDigits: 4 })} zkLTC</div>
+            <div className="bal">{balNum.toLocaleString(undefined, { maximumFractionDigits: 4 })} zkLTC</div>
             <button className="btn btn-ghost btn-sm wallet-chip" onClick={() => setOpen(true)}>
               <span className="wb-avatar"><Jazzicon diameter={18} seed={jsNumberForAddress(address)} /></span>
               {short}
