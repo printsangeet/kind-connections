@@ -127,11 +127,13 @@ export default function RoundCard({
         const ts4 = String(Date.now()).slice(-4);
         setToast({
           kind: "success",
-          mode: mode.label,
+          mode: mode.id,
           pick: String(finalPick).toUpperCase(),
           stake: BET,
           roundId: round.id,
           refId: `BOB-${round.id}-${last4}-${ts4}`,
+          blockNumber: head != null ? head + Math.round(msToSettle / 200) : null,
+          roundSettled: false,
         });
         // close after a brief moment so the user sees the lever animation finish
         setTimeout(() => {
