@@ -180,6 +180,8 @@ export default function App() {
           <div className="item"><span className="k">Block Time</span><span className="v">~0.2s</span></div>
         </div>
 
+        <WinnersMarquee />
+
         <div className="wrap">
           <button className="back-link" onClick={() => goView("home")}><ArrowLeft size={14} /> Back to home</button>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
