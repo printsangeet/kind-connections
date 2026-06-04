@@ -1,8 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Shield, Flame, Zap, ChevronLeft, ArrowUpRight, Blocks, Sparkles } from "lucide-react";
+import { Shield, Flame, Zap, ChevronLeft, ArrowUpRight, Blocks, Sparkles, HelpCircle } from "lucide-react";
 import { api, type RoundView } from "../lib/api";
-import { MODES, HEX, signals, type ModeMeta } from "../lib/modes";
+import { MODES, HEX, signals, type ModeMeta, type ModeId } from "../lib/modes";
+import Coin from "./Coin";
+import ModeHelpModal from "./ModeHelpModal";
 import * as W from "../lib/wallet";
 import LeverSwitch from "./LeverSwitch";
 
@@ -34,6 +36,7 @@ export default function RoundCard({
   const [placing, setPlacing] = React.useState(false);
   const [myBets, setMyBets] = React.useState<Array<{ mode: string; pick: string }>>([]);
   const [revealStep, setRevealStep] = React.useState(0);
+  const [helpOpen, setHelpOpen] = React.useState(false);
   // lever state: which side is pulled? resets when user goes Back or after confirm.
   const [leverPulled, setLeverPulled] = React.useState<string | null>(null);
   const [confirmPulled, setConfirmPulled] = React.useState(false);
@@ -172,7 +175,20 @@ export default function RoundCard({
 
           <div className="pm-q">
             <div className="pm-icon"><Zap size={18} /></div>
-            <h3>{mode.desc}</h3>
+            <h3 style={{ flex: 1 }}>{mode.desc}</h3>
+            <button
+              onClick={() => setHelpOpen(true)}
+              aria-label="Mode help"
+              title="What is this mode?"
+              style={{
+                background: "#fff", border: "2px solid #000", borderRadius: 999,
+                width: 28, height: 28, display: "grid", placeItems: "center",
+                cursor: "pointer", boxShadow: "2px 2px 0 0 #000", flexShrink: 0,
+                color: "#0a0a0a",
+              }}
+            >
+              <HelpCircle size={15} />
+            </button>
           </div>
 
           <div className="pm-prog-thin"><div className="fill" style={{ width: `${pct}%` }} /></div>
@@ -215,9 +231,9 @@ export default function RoundCard({
 
           {/* banks */}
           <div className="pm-banks">
-            <div><p>Total Pot</p><b style={{color:"#000"}}>{totalPot.toFixed(2)}</b></div>
-            <div><p>Bank {sideA.toUpperCase()}</p><b className="em">◆ {bankA.toFixed(2)}</b></div>
-            <div><p>Bank {sideB.toUpperCase()}</p><b className="ro">◆ {bankB.toFixed(2)}</b></div>
+            <div><p>Total Pot</p><b style={{color:"#000"}}><Coin size={14} /> {totalPot.toFixed(2)}</b></div>
+            <div><p>Bank {sideA.toUpperCase()}</p><b className="em"><Coin size={14} /> {bankA.toFixed(2)}</b></div>
+            <div><p>Bank {sideB.toUpperCase()}</p><b className="ro"><Coin size={14} /> {bankB.toFixed(2)}</b></div>
           </div>
 
           {/* mode selector */}
@@ -316,17 +332,17 @@ export default function RoundCard({
               )}
               {mode.kind === "perfectblock" && (
                 <div style={{ fontSize: 12, color: "var(--text-2)", margin: "-2px 0 12px" }}>
-                  <span>If you win: <b style={{ color: "#00e5ff" }}>◆ {(BET * mode.multiplier).toFixed(4)} zkLTC</b> (50×)</span>
+                  <span>If you win: <b style={{ color: "#00e5ff" }}><Coin size={13} /> {(BET * mode.multiplier).toFixed(4)} zkLTC</b> (50×)</span>
                 </div>
               )}
               {mode.kind === "number" && (
                 <div style={{ fontSize: 12, color: "var(--text-2)", margin: "-2px 0 12px" }}>
-                  <span>If you win: <b style={{ color: "#00e5ff" }}>◆ {(BET * mode.multiplier).toFixed(4)} zkLTC</b> ({mode.multiplier}×)</span>
+                  <span>If you win: <b style={{ color: "#00e5ff" }}><Coin size={13} /> {(BET * mode.multiplier).toFixed(4)} zkLTC</b> ({mode.multiplier}×)</span>
                 </div>
               )}
               {mode.kind === "pvp" && (
                 <div style={{ fontSize: 12, color: "var(--text-2)", margin: "-2px 0 12px" }}>
-                  <span>If you win: <b style={{ color: "#00e5ff" }}>◆ {Math.max(0.0196, round.players * BET * 0.98).toFixed(4)} zkLTC</b> (winner takes pot)</span>
+                  <span>If you win: <b style={{ color: "#00e5ff" }}><Coin size={13} /> {Math.max(0.0196, round.players * BET * 0.98).toFixed(4)} zkLTC</b> (winner takes pot)</span>
                 </div>
               )}
               <button
@@ -348,7 +364,7 @@ export default function RoundCard({
                       ? "Connect wallet to place bets"
                       : mode.kind === "digit" && !HEX.includes(pick)
                         ? "Pick a digit"
-                        : "Place Bet ◆ 0.01"}
+                        : <>Place Bet <Coin size={14} /> 0.01</>}
               </button>
             </div>
           )}
@@ -364,14 +380,15 @@ export default function RoundCard({
           <div className={`pm-bv-pill ${["even","high","over"].includes(finalPick) ? "em" : "ro"}`}>
             {mode.label}: {String(finalPick).toUpperCase() || "—"}
           </div>
-          <div className="pm-bv-stake"><span>Stake (fixed)</span><b>◆ 0.01 zkLTC</b></div>
-          {mode.multiplier > 0 && <div className="pm-bv-win"><span>If you win</span><b className="em">◆ {(BET * mode.multiplier).toFixed(4)} zkLTC</b></div>}
+          <div className="pm-bv-stake"><span>Stake (fixed)</span><b><Coin size={14} /> 0.01 zkLTC</b></div>
+          {mode.multiplier > 0 && <div className="pm-bv-win"><span>If you win</span><b className="em"><Coin size={14} /> {(BET * mode.multiplier).toFixed(4)} zkLTC</b></div>}
           <button className="pm-confirm" disabled={!canConfirm} onClick={confirm}>
             <LeverSwitch pulled={confirmPulled} side={finalPick} size={26} />
             <span className="pm-confirm-txt">{placing ? "Confirm in wallet…" : "Confirm Bet"}</span>
           </button>
         </motion.div>
       </div>
+      {helpOpen && <ModeHelpModal modeId={mode.id as ModeId} onClose={() => setHelpOpen(false)} />}
     </motion.div>
   );
 }
@@ -387,6 +404,6 @@ function RevealGrid({ block, step }: { block: any; step: number }) {
 }
 function ResultStats({ result }: { result: any }) {
   const s = result.stats;
-  return <div className="rstats"><div className="c"><div className="k">Players</div><div className="v">{s.players}</div></div><div className="c"><div className="k">Winners</div><div className="v g">{s.winners}</div></div><div className="c"><div className="k">Losers</div><div className="v r">{s.losers}</div></div><div className="c"><div className="k">Paid</div><div className="v">◆ {s.totalPaidOut}</div></div></div>;
+  return <div className="rstats"><div className="c"><div className="k">Players</div><div className="v">{s.players}</div></div><div className="c"><div className="k">Winners</div><div className="v g">{s.winners}</div></div><div className="c"><div className="k">Losers</div><div className="v r">{s.losers}</div></div><div className="c"><div className="k">Paid</div><div className="v"><Coin size={13} /> {s.totalPaidOut}</div></div></div>;
 }
 function rand() { const h = "0123456789abcdef"; let s = "0x"; for (let i = 0; i < 24; i++) s += h[Math.floor(Math.random() * 16)]; return s + "…"; }
