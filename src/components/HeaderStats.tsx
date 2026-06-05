@@ -45,34 +45,28 @@ export default function HeaderStats() {
     };
   }, [load]);
 
-  const pill = (label: string, value: number) => (
-    <div
-      style={{
-        display: "inline-flex", flexDirection: "column", alignItems: "center",
-        background: "#0a0a0a", color: "#fff",
-        border: "3px solid #000", borderRadius: 12,
-        padding: "8px 18px",
-        fontFamily: "'Space Grotesk',system-ui,sans-serif",
-        boxShadow: "5px 5px 0 0 rgba(0,0,0,.9)",
-        lineHeight: 1.1, minWidth: 92,
-      }}
-    >
-      <span style={{
-        fontSize: 9, letterSpacing: ".18em", textTransform: "uppercase",
-        color: "rgba(255,255,255,.55)", fontWeight: 700, marginBottom: 4,
-      }}>{label}</span>
-      <span style={{
-        fontSize: 16, fontWeight: 900, color: "#fff",
-        fontFamily: "'JetBrains Mono',monospace", letterSpacing: "-.01em",
-      }}>{value.toLocaleString()}</span>
-    </div>
-  );
-
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-      {pill("Total Bets", stats.totalBets)}
-      {pill("Total Won", stats.totalWon)}
-      {pill("Total Loss", stats.totalLoss)}
+      <div
+        style={{
+          display: "inline-flex", alignItems: "center", gap: 10,
+          background: "#fff7ed", color: "#0a0a0a", border: "3px solid #000",
+          borderRadius: 12, padding: "12px 20px", fontWeight: 900,
+          fontFamily: "'Space Grotesk',system-ui,sans-serif",
+          letterSpacing: ".04em", textTransform: "uppercase",
+          boxShadow: "5px 5px 0 0 rgba(0,0,0,.9)",
+          lineHeight: 1,
+        }}
+      >
+        <span style={{
+          fontSize: 11, letterSpacing: ".12em",
+          color: "rgba(10,10,10,.6)", fontWeight: 800,
+        }}>Total Bets</span>
+        <span style={{
+          fontSize: 16, fontWeight: 900, color: "#0a0a0a",
+          fontFamily: "'JetBrains Mono',monospace", letterSpacing: "-.01em",
+        }}>{stats.totalBets.toLocaleString()}</span>
+      </div>
     </div>
   );
 }
