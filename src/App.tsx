@@ -315,6 +315,10 @@ export default function App() {
           onClose={() => setShowYourBets(false)}
         />
       )}
+      {showYourPoints && addr && (
+        <YourPointsModal address={addr} onClose={() => setShowYourPoints(false)} />
+      )}
+      <PointsToast />
     </>
   );
 }
